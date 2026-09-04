@@ -1,0 +1,44 @@
+# Job resource template. Copy to resources/<object>.job.yml and replace every <...>.
+# Stability patterns SP-01–SP-12: harness/standards/automation-standard.md
+resources:
+  jobs:
+    <object>:
+      name: <object>
+      max_concurrent_runs: 1                       # SP-04 no overlap
+      timeout_seconds: 7200                        # SP-03 job-level timeout
+      tags:                                        # SP-12
+        domain: <domain>
+        tier: "<1|2|3>"
+        contract: docs/10-contract/<object>.contract.md
+      email_notifications:
+        on_failure: [<team-alias@example.com>]     # SP-09
+      health:
+        rules:
+          - metric: RUN_DURATION_SECONDS           # SP-09 / SP-10
+            op: GREATER_THAN
+            value: 3600
+      schedule:                                    # paused automatically in dev (development mode)
+        quartz_cron_expression: "0 0 3 * * ?"
+        timezone_id: UTC
+      parameters:                                  # SP-08 backfill / replay
+        - name: start_date
+          default: ""
+        - name: end_date
+          default: ""
+      tasks:
+        - task_key: build
+          environment_key: default                 # SP-11 serverless
+          spark_python_task:
+            python_file: ../src/pipelines/<layer>/<object>.py
+            parameters:
+              - --catalog=${var.catalog}
+              - --schema=${var.schema}
+              - --start-date={{job.parameters.start_date}}
+              - --end-date={{job.parameters.end_date}}
+          max_retries: 2                           # SP-02. Safe only because the model is idempotent (SP-01)
+          min_retry_interval_millis: 300000
+          timeout_seconds: 3600
+      environments:
+        - environment_key: default
+          spec:
+            client: "1"

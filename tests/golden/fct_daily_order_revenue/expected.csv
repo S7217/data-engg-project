@@ -1,0 +1,5 @@
+order_date,region_code,completed_order_count,revenue_cents
+2026-09-01,EMEA,1,10000
+2026-09-01,APAC,2,7500
+2026-09-02,EMEA,1,4000
+2026-09-02,UNKNOWN,1,1500

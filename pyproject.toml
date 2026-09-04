@@ -1,0 +1,20 @@
+[project]
+name = "order_revenue"
+version = "0.1.0"
+requires-python = ">=3.11,<3.13"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+    "pyspark>=3.5,<4.1",
+    "ruff>=0.6",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src", "tests"]
+
+[tool.ruff]
+line-length = 110
+extend-exclude = ["harness"]

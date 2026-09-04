@@ -1,0 +1,10 @@
+.databricks/
+.venv/
+__pycache__/
+*.pyc
+reports/
+scratch/*
+!scratch/.gitkeep
+.env
+.env.*
+.claude/settings.local.json

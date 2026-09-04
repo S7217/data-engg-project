@@ -1,0 +1,31 @@
+# Lakeflow Declarative Pipeline template. Copy to resources/<object>.pipeline.yml and replace every <...>.
+# DQ expectations and quarantine pattern: harness/standards/dq-standard.md, test-and-reconciliation-patterns.md
+resources:
+  pipelines:
+    <object>_pipeline:
+      name: <object>_pipeline
+      catalog: ${var.catalog}
+      schema: ${var.schema}
+      serverless: true
+      channel: CURRENT
+      libraries:
+        - file:
+            path: ../src/pipelines/<layer>/<object>.py
+
+  jobs:
+    <object>_pipeline_refresh:
+      name: <object>_pipeline_refresh
+      max_concurrent_runs: 1
+      tags:
+        domain: <domain>
+        tier: "<1|2|3>"
+        contract: docs/10-contract/<object>.contract.md
+      email_notifications:
+        on_failure: [<team-alias@example.com>]
+      schedule:
+        quartz_cron_expression: "0 0 3 * * ?"
+        timezone_id: UTC
+      tasks:
+        - task_key: refresh
+          pipeline_task:
+            pipeline_id: ${resources.pipelines.<object>_pipeline.id}

@@ -1,0 +1,40 @@
+# Delivery envelope: the nine governance facts known BEFORE an object is created.
+# Harness template · S3 · see harness/standards/uc-operating-model.md §7
+# Also embedded as §13 of the acceptance contract; use this file for objects without a contract
+# (volumes, models, dashboards) or for machine processing.
+
+artefact: ""                       # catalog.schema.object
+
+placement:
+  catalog: ""                      # per target: dev / test / prod
+  schema: ""                       # <domain>_<layer>
+
+ownership:
+  owner_group: ""                  # a group, never a person
+  steward: ""                      # role with authority over meaning and classification
+
+classification:
+  sensitivity: ""                  # public | internal | confidential | restricted   (default and rules: harness/standards/classification-taxonomy.md)
+  tag_source: ""                   # steward-applied | proposed (pending steward)
+
+human_access:
+  readers: []                      # groups
+  writers: []                      # groups / service principals
+
+agent_access:
+  data_read: ""                    # yes | no | metadata_only
+  code_write: ""                   # yes | no
+  data_write: ""                   # dev_only | no
+  metadata_write: ""               # yes | no | propose_only
+  governed_tag_write: "propose_only"   # decision 7: yes | no | propose_only   (v0: propose_only for every agent)
+
+identity:
+  dev: "engineer's own identity"
+  test: ""                         # service principal
+  prod: ""                         # service principal (bundle run_as)
+
+publication:
+  risk_tier: ""                    # 1 | 2 | 3
+  required_gate: "governed_acceptance_gate"
+  verification_level: ""           # self-review | context-separated | independent authority
+  publication_authority: ""        # named role / person

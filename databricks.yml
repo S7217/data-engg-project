@@ -1,0 +1,50 @@
+# Declarative Automation Bundle (formerly Databricks Asset Bundles).
+# Follows harness/standards/automation-standard.md and uc-operating-model.md.
+# Workspace host comes from your CLI profile or DATABRICKS_HOST. It's deliberately not hard-coded.
+bundle:
+  name: order_revenue
+
+include:
+  - resources/*.yml
+
+variables:
+  catalog:
+    description: Unity Catalog catalog (one per environment)
+  schema:
+    description: Schema for this project's objects
+    default: order_revenue
+  test_service_principal:
+    description: Application ID of the test service principal (set in CI via BUNDLE_VAR_test_service_principal)
+    default: ""
+  prod_service_principal:
+    description: Application ID of the prod service principal (set in CI via BUNDLE_VAR_prod_service_principal)
+    default: ""
+
+targets:
+  dev:
+    # Engineer's own identity; resources prefixed and schedules paused by development mode.
+    mode: development
+    default: true
+    variables:
+      catalog: dev
+      schema: ${workspace.current_user.short_name}_${bundle.name}
+
+  test:
+    # Deployed by CI only.
+    mode: production
+    workspace:
+      root_path: /Workspace/Users/${workspace.current_user.userName}/.bundle/${bundle.name}/${bundle.target}  # CI identity's home, not /Shared
+    variables:
+      catalog: test
+    run_as:
+      service_principal_name: ${var.test_service_principal}
+
+  prod:
+    # Deployed by CI only. The harness guard hook blocks prod from agent sessions.
+    mode: production
+    workspace:
+      root_path: /Workspace/Users/${workspace.current_user.userName}/.bundle/${bundle.name}/${bundle.target}  # CI identity's home, not /Shared
+    variables:
+      catalog: prod
+    run_as:
+      service_principal_name: ${var.prod_service_principal}

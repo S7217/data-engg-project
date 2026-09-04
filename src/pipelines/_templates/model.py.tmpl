@@ -1,0 +1,82 @@
+# grain: <one row per ...>
+# contract: docs/10-contract/<object>.contract.md (version pinned in impl spec §0)
+# implements: <BR-01, BR-02, ...>
+"""<object>: built from docs/20-impl-spec/<object>.impl.md. Copy to src/pipelines/<layer>/<object>.py.
+
+Patterns: harness/standards/automation-standard.md (SP-01 idempotency), dq-standard.md (quarantine, never silent drop).
+"""
+
+import argparse
+
+from pyspark.sql import DataFrame, SparkSession
+from pyspark.sql import functions as F
+
+KEY = ["<grain_key>"]  # contract §5
+
+# DQ rules whose disposition is `quarantine` (contract §8 → impl §9). Failing rows are kept, not dropped.
+QUARANTINE_RULES = {
+    "DQ-01": "<grain_key> IS NOT NULL",
+}
+
+
+def split_valid(df: DataFrame) -> tuple[DataFrame, DataFrame]:
+    """Valid rows, and failing rows with dq_rule_id. The two always add up to the input."""
+    valid_expr = " AND ".join(f"({cond})" for cond in QUARANTINE_RULES.values()) or "TRUE"
+    first_failed = F.coalesce(*[F.when(~F.expr(cond), F.lit(rid)) for rid, cond in QUARANTINE_RULES.items()], F.lit(None))
+    flagged = df.withColumn("dq_rule_id", first_failed)
+    valid = flagged.where(F.expr(valid_expr)).drop("dq_rule_id")
+    quarantined = flagged.where(~F.expr(valid_expr))
+    return valid, quarantined
+
+
+def transform(source: DataFrame) -> DataFrame:
+    """Pure transformation, unit-tested in tests/unit/test_<object>.py. No I/O here."""
+    return (
+        source
+        # M-01 · BR-01 · <what this line implements, in the contract's words>
+        .where(F.col("<status_column>") == "<value>")
+        # M-02 · PASSTHROUGH
+        .select(*KEY, "<column>")
+    )
+
+
+def main() -> None:
+    p = argparse.ArgumentParser()
+    p.add_argument("--catalog", required=True)
+    p.add_argument("--schema", required=True)
+    p.add_argument("--start-date", default="")
+    p.add_argument("--end-date", default="")
+    a = p.parse_args()
+
+    spark = SparkSession.builder.getOrCreate()
+    target = f"{a.catalog}.{a.schema}.<object>"
+    source = spark.read.table(f"{a.catalog}.<source_schema>.<source_table>")
+    if a.start_date:  # SP-08 backfill / replay
+        source = source.where(F.col("<partition_date>").between(a.start_date, a.end_date or a.start_date))
+
+    valid, quarantined = split_valid(source)
+    run_id = spark.conf.get("spark.databricks.job.runId", "interactive")
+    (quarantined
+        .withColumn("quarantined_at", F.current_timestamp())
+        .withColumn("source_run_id", F.lit(run_id))
+        .withColumn("reason", F.col("dq_rule_id"))
+        .withColumn("is_reprocessed", F.lit(False))
+        .withColumn("reprocessed_at", F.lit(None).cast("timestamp"))
+        .write.mode("append").option("mergeSchema", "false").saveAsTable(f"{target}_quarantine"))
+
+    out = transform(valid)
+
+    # SP-01 idempotency: MERGE on the contract key. Never a blind append to a published table.
+    out.createOrReplaceTempView("_updates")
+    on = " AND ".join(f"t.{k} = s.{k}" for k in KEY)
+    if not spark.catalog.tableExists(target):
+        out.limit(0).write.saveAsTable(target)
+    spark.sql(f"""
+        MERGE INTO {target} t USING _updates s ON {on}
+        WHEN MATCHED THEN UPDATE SET *
+        WHEN NOT MATCHED THEN INSERT *
+    """)
+
+
+if __name__ == "__main__":
+    main()

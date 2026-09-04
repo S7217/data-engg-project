@@ -1,0 +1,29 @@
+# Business glossary: the harness format. Lives at docs/glossary.yml in each repo (created by install.sh),
+# or point trace_check.py --glossary at a shared organisation glossary.
+#
+# Contracts reference terms by ID (GL-nnnn) and never paste a definition: a copied
+# definition goes stale the day the glossary changes, and nobody notices.
+# trace_check.py check 6 resolves every GL- cited in a contract against this file
+# (or pass --glossary <path> to point at the organisation's glossary).
+#
+# Owned by stewards. An agent may PROPOSE an entry; a steward approves it by setting
+# status: approved. Proposed entries resolve for trace_check but fail the gate at Tier 2-3.
+#
+# Entry format:
+#
+# GL-0001:
+#   term: Active Account
+#   status: approved            # proposed | approved | deprecated
+#   definition: >
+#     One paragraph, business language, no SQL.
+#   examples:
+#     - "A concrete case that IS an instance"
+#   counterexamples:
+#     - "A concrete case that looks like one but is NOT"
+#   unit: null                  # for measures: cents, count, ratio, ...
+#   owned_by: Product Lead      # role with authority over the definition
+#   abbreviation_approved: false
+#   supersedes: null
+#   last_reviewed: "YYYY-MM-DD"
+
+{}
