@@ -5,7 +5,7 @@ resources:
     fct_daily_order_revenue:
       name: fct_daily_order_revenue
       max_concurrent_runs: 1                       # SP-04 no overlap
-      timeout_seconds: 3600                        # SP-03 job-level timeout
+      timeout_seconds: 7200                        # SP-03 job-level timeout
       tags:                                        # SP-12
         domain: sales
         tier: "2"
