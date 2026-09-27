@@ -46,3 +46,4 @@ Month-end promotions trip DQ-04 legitimately. Check with Sales Ops before treati
 | Date | Change | By |
 |---|---|---|
 | 2026-09-04 | Initial | data engineer |
+| 2026-09-27 | Escalation contact added | data engineer |
