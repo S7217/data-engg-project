@@ -1,0 +1,10 @@
+-- DESCRIBE HISTORY prod.crm_silver.dim_customer  (most recent first, abridged)
+version  timestamp             userName            operation               operationParameters                     operationMetrics
+233      2026-09-29 01:40:11   sp-crm-platform     MERGE                   predicate: customer_id                  numTargetRowsInserted=412
+232      2026-09-28 01:40:03   sp-crm-platform     MERGE                   predicate: customer_id                  numTargetRowsInserted=398
+231      2026-09-27 01:39:58   sp-crm-platform     MERGE                   predicate: customer_id                  numTargetRowsInserted=405
+230      2026-09-26 01:40:09   sp-crm-platform     MERGE                   predicate: customer_id                  numTargetRowsInserted=391
+229      2026-09-25 22:10:44   sp-crm-platform     CREATE OR REPLACE TABLE  isManaged: true; description: "v2.0 SCD2" numOutputRows=59877
+228      2026-09-25 01:40:02   sp-crm-platform     MERGE                   predicate: customer_id                  numTargetRowsUpdated=210
+-- version 228 schema: customer_id, region_code, segment, updated_at                     (48,210 rows)
+-- version 229 schema: customer_id, region_code, segment, valid_from, valid_to, is_current, updated_at

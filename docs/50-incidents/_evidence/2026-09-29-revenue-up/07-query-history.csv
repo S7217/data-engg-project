@@ -1,0 +1,7 @@
+start_time,executed_by,client_application,statement_preview,rows_read
+2026-09-29T07:58:00Z,svc-finance-bi,Dashboard: Daily Trading,SELECT order_date, region_code, revenue_cents FROM prod.sales_gold.fct_daily_order_revenue WHERE order_date >= current_date() - 30,360
+2026-09-28T07:58:00Z,svc-finance-bi,Dashboard: Daily Trading,SELECT order_date, region_code, revenue_cents FROM prod.sales_gold.fct_daily_order_revenue WHERE order_date >= current_date() - 30,360
+2026-09-27T07:58:00Z,svc-finance-bi,Dashboard: Daily Trading,SELECT order_date, region_code, revenue_cents FROM prod.sales_gold.fct_daily_order_revenue WHERE order_date >= current_date() - 30,360
+2026-09-26T07:58:01Z,svc-finance-bi,Dashboard: Daily Trading,SELECT order_date, region_code, revenue_cents FROM prod.sales_gold.fct_daily_order_revenue WHERE order_date >= current_date() - 30,360
+2026-09-28T10:12:44Z,sales-ops analyst,Notebook: Regional review,SELECT region_code, sum(revenue_cents) FROM prod.sales_gold.fct_daily_order_revenue WHERE order_date BETWEEN '2026-09-01' AND '2026-09-27' GROUP BY 1,12
+2026-09-29T06:30:12Z,sp-finance-close,Job: month_end_close_extract,SELECT * FROM prod.sales_gold.fct_daily_order_revenue WHERE order_date BETWEEN '2026-09-01' AND '2026-09-28',336

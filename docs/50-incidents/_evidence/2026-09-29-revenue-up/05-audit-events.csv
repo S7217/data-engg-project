@@ -1,0 +1,4 @@
+event_time,service_name,action_name,user_identity,request_params_full_name,response_status
+2026-09-25T22:10:44Z,unityCatalog,createTable,sp-crm-platform,prod.crm_silver.dim_customer,200
+2026-09-25T22:11:02Z,unityCatalog,updateTables,sp-crm-platform,prod.crm_silver.dim_customer,200
+2026-09-27T14:22:10Z,jobs,update,sp-sales-data-prod,fct_daily_order_revenue,200

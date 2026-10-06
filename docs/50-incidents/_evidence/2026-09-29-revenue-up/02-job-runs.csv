@@ -1,0 +1,7 @@
+run_id,job_name,period_start_time,period_end_time,result_state,run_type,triggered_by,bundle_version
+881201,fct_daily_order_revenue,2026-09-24T03:00:04Z,2026-09-24T03:04:31Z,SUCCEEDED,JOB_RUN,schedule,v1.0.3
+881777,fct_daily_order_revenue,2026-09-25T03:00:03Z,2026-09-25T03:04:12Z,SUCCEEDED,JOB_RUN,schedule,v1.0.3
+882340,fct_daily_order_revenue,2026-09-26T03:00:05Z,2026-09-26T03:05:58Z,SUCCEEDED,JOB_RUN,schedule,v1.0.3
+882911,fct_daily_order_revenue,2026-09-27T03:00:04Z,2026-09-27T03:06:02Z,SUCCEEDED,JOB_RUN,schedule,v1.0.3
+883460,fct_daily_order_revenue,2026-09-28T03:00:06Z,2026-09-28T03:06:20Z,SUCCEEDED,JOB_RUN,schedule,v1.0.4
+884013,fct_daily_order_revenue,2026-09-29T03:00:04Z,2026-09-29T03:06:11Z,SUCCEEDED,JOB_RUN,schedule,v1.0.4

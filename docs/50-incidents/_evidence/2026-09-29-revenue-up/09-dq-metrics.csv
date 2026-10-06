@@ -1,0 +1,7 @@
+run_id,order_date,region_code,dq_01_grain,dq_02_quarantined_rows,revenue_cents,dq_04_ratio_to_28d_median,dq_04_state
+882340,2026-09-25,EMEA,pass,1,40112800,1.19,ok
+882911,2026-09-26,EMEA,pass,0,41027350,1.21,ok
+883460,2026-09-27,EMEA,pass,2,39880410,1.20,ok
+884013,2026-09-28,EMEA,pass,0,40655900,1.22,ok
+884013,2026-09-28,APAC,pass,0,18220400,1.04,ok
+884013,2026-09-28,AMER,pass,1,52310700,1.12,ok

@@ -36,7 +36,7 @@ One of two documents. This one is graded by the gate. The **Implementation Spec*
 >
 > An `INFERRED` value that should have been `ABSENT` produces a contract that passes review and fails in production, because nothing in the review had reason to question it.
 
-**Check it mechanically before submitting to the gate:** `python3 harness/tools/contract_check.py docs/10-contract/<object>.contract.md`. It flags blank statuses, missing mandatory sections for the tier, `ABSENT`/`INFERRED` sections with no §14 row, and a `PASS` recorded over an `ABSENT` at Tier 2–3.
+**Check it mechanically before submitting to the gate:** `python3 harness/tools/contract_check.py docs/10-contract/<object>.contract.md`. It flags blank statuses, uncited `PRESENT`s, missing mandatory sections for the tier, `ABSENT`/`INFERRED` sections with no §14 row, and a §15 `PASS` that is over an `ABSENT`, below the tier's verification level, or (Tier 2–3) without a named decider.
 
 **Every `PRESENT` needs a citation** — document and section, or file and line. "The BRD says so" is not a citation.
 

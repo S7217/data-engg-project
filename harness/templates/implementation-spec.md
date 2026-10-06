@@ -208,7 +208,7 @@ The second of two documents. The **Acceptance Contract** says what must be true;
 python3 harness/tools/trace_check.py docs/10-contract/<object>.contract.md docs/20-impl-spec/<object>.impl.md
 ```
 
-The script runs checks 1–8 and also check 9: every test ID in §10 exists in `tests/`. It exits non-zero if any failure has no §14 row. A failure counts as recorded when its ID, or `§12 #n` in the *From check* column, appears in §14.
+The script runs checks 1–8 plus check 0 (the documents parse: nothing parsed is a failure, not a pass) and check 9 (every test ID in §10 exists in `tests/`). It exits non-zero if any failure has no §14 row of its own: a row naming the failing ID, or one row per failure naming `§12 #n` in the *From check* column.
 
 | # | Check | Result |
 |---|---|---|

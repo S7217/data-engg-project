@@ -1,0 +1,9 @@
+-- DESCRIBE HISTORY prod.sales_gold.fct_daily_order_revenue  (most recent first, abridged)
+version  timestamp             operation  operationParameters                                         operationMetrics
+412      2026-09-29 03:06:09   WRITE      replaceWhere: order_date BETWEEN '2026-09-26' AND '2026-09-28'   numOutputRows=36
+411      2026-09-28 03:06:18   WRITE      replaceWhere: order_date BETWEEN '2026-09-25' AND '2026-09-27'   numOutputRows=36
+410      2026-09-27 03:06:00   WRITE      replaceWhere: order_date BETWEEN '2026-09-24' AND '2026-09-26'   numOutputRows=36
+409      2026-09-26 03:05:56   WRITE      replaceWhere: order_date BETWEEN '2026-09-23' AND '2026-09-25'   numOutputRows=36
+408      2026-09-25 03:04:10   WRITE      replaceWhere: order_date BETWEEN '2026-09-22' AND '2026-09-24'   numOutputRows=36
+407      2026-09-24 03:04:29   WRITE      replaceWhere: order_date BETWEEN '2026-09-21' AND '2026-09-23'   numOutputRows=36
+-- no schema change, no OPTIMIZE/RESTORE/VACUUM in the window. Vacuum retention: 7 days.

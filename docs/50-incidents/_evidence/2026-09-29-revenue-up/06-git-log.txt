@@ -1,0 +1,11 @@
+# git log --format="%h %ad %s" --date=iso   (live: run it in this repo)   + bundle deploys from CI (simulated)
+d417e32 2026-09-27 14:05:31 +0000 job: raise job timeout 3600 -> 7200 (SP-03), no code change
+51140e9 2026-09-27 13:58:12 +0000 runbook: add escalation contact
+# CI deploy: v1.0.4 to prod at 2026-09-27 14:22:10 UTC (sp-sales-data-prod)
+4a7a30d 2026-09-04 16:40:02 +0000 fct_daily_order_revenue: initial implementation (impl spec 1.0)
+# CI deploy: v1.0.3 to prod at 2026-09-04 17:02:40 UTC
+
+# git diff 4a7a30d..d417e32 --stat
+ docs/60-runbooks/fct_daily_order_revenue.md |  1 +
+ resources/fct_daily_order_revenue.job.yml   |  2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
